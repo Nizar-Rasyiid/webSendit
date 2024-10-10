@@ -23,7 +23,7 @@ const App = () => {
             <button onClick={toggleSidebar} className="lg:hidden">
               <Menu size={24} />
             </button>
-            <h1 className="text-xl font-semibold">Admin Dashboard</h1>
+            <h1 className="text-xl font-semibold">Admin Dashboard SENDIT</h1>
           </header>
 
           <main>
