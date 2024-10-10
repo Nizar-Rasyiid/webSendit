@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Menu } from "lucide-react";
+import Sidebar from "./sidebar";
+import AdminDashboard from "./adminDashboard";
+import UsersPage from "./UsersPage";
+import OrderPage from "./OrderPage";
 
-function App() {
+const App = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="bg-gray-100 min-h-screen">
+        <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+        <div className="lg:ml-64 transition-all duration-300 ease-in-out">
+          <header className="bg-white shadow-md p-4 flex justify-between items-center">
+            <button onClick={toggleSidebar} className="lg:hidden">
+              <Menu size={24} />
+            </button>
+            <h1 className="text-xl font-semibold">Admin Dashboard</h1>
+          </header>
+
+          <main>
+            <Routes>
+              <Route path="/" element={<AdminDashboard />} />
+              <Route path="/users" element={<UsersPage />} />
+              <Route path="/orders" element={<OrderPage />} />
+              {/* <Route path="/settings" element={<SettingsPage />} /> */}
+            </Routes>
+          </main>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
