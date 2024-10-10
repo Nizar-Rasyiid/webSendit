@@ -33,6 +33,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
               <HelpCircle className="mr-2" size={20} /> Help
             </Link>
           </li>
+          <li>
+            <Link to="/auth/login" className="flex items-center p-2 hover:bg-gray-700 rounded">
+              <HelpCircle className="mr-2" size={20} /> Login
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>

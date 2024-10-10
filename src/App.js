@@ -5,6 +5,8 @@ import Sidebar from "./sidebar";
 import AdminDashboard from "./adminDashboard";
 import UsersPage from "./UsersPage";
 import OrderPage from "./OrderPage";
+import LoginPage from "./auth/login";
+import RegisterPage from "./auth/register";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,6 +31,8 @@ const App = () => {
               <Route path="/" element={<AdminDashboard />} />
               <Route path="/users" element={<UsersPage />} />
               <Route path="/orders" element={<OrderPage />} />
+              <Route path="/auth/login" element={<LoginPage />} />
+              <Route path="/auth/register" element={<RegisterPage />} />
               {/* <Route path="/settings" element={<SettingsPage />} /> */}
             </Routes>
           </main>
