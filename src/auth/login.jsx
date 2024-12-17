@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const UsersPage = () => {
+const Login = () => {
   // Dummy data untuk pengguna
   const [users, setUsers] = useState([
     { id: 1, name: "John Doe", email: "john@example.com" },
@@ -61,6 +61,9 @@ const UsersPage = () => {
           <thead>
             <tr>
               <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Alamat</th>
+              <th className="px-4 py-2 border">Username</th>
+              <th className="px-4 py-2 border">Role</th>
               <th className="px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Actions</th>
             </tr>
@@ -70,6 +73,10 @@ const UsersPage = () => {
               <tr key={user.id}>
                 <td className="px-4 py-2 border">{user.name}</td>
                 <td className="px-4 py-2 border">{user.email}</td>
+                <td className="px-4 py-2 border">{user.name}</td>
+                <td className="px-4 py-2 border">{user.email}</td>
+                <td className="px-4 py-2 border">{user.name}</td>
+                {/* <td className="px-4 py-2 border">{user.email}</td> */}
                 <td className="px-4 py-2 border">
                   <button className="bg-yellow-500 text-white px-4 py-2 rounded mr-2" onClick={() => editUser(user)}>
                     Edit
@@ -87,4 +94,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default Login;
