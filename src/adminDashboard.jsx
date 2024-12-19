@@ -9,20 +9,33 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
 
-  // Fetch payments or other related data
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://192.168.1.14:8000/api/users");
+      setUsers(response.data);
+      const totalUsersCount = response.data.filter((user) => user.role === "pemesan").length;
+      setTotalUsers(totalUsersCount);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch users");
+      setLoading(false);
+    }
+  };
+
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/payments");
-      // Assuming `response.data` is an array of payments
+      const response = await axios.get("http://192.168.1.14:8000/api/payments");
       const processedData = response.data.map((payment) => ({
-        name: payment.month, // Adjust based on your API response
-        sales: payment.sales, // Adjust based on your API response
+        name: payment.month,
+        sales: payment.sales,
       }));
       setData(processedData);
 
-      // Calculate total revenue
       const total = response.data.reduce((acc, payment) => acc + payment.harga, 0);
       setTotalRevenue(total);
 
@@ -35,6 +48,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchPayments();
+    fetchUsers();
   }, []);
 
   return (
@@ -42,7 +56,7 @@ const AdminDashboard = () => {
       {error && <div className="bg-red-100 text-red-700 p-4 mb-4 rounded">{error}</div>}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard icon={Users} title="Total Users" value="1,234" />
+        <StatCard icon={Users} title="Total Users" value={`${totalUsers}`} />
         <StatCard icon={ShoppingCart} title="Total Orders" value="56" />
         <StatCard icon={DollarSign} title="Total Revenue" value={`${totalRevenue}`} />
         <StatCard icon={Activity} title="Active Users" value="789" />

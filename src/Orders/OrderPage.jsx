@@ -21,7 +21,7 @@ const OrderPage = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/pemesanans");
+      const response = await axios.get("http://192.168.1.14:8001/api/pemesanans");
       setOrders(response.data);
       setLoading(false);
     } catch (err) {
@@ -47,7 +47,7 @@ const OrderPage = () => {
   // Add new order
   const addOrder = async () => {
     try {
-      const response = await axios.post("http://192.168.1.17:8000/api/pemesanans", newOrder);
+      const response = await axios.post("http://192.168.1.14:8001/api/pemesanan", newOrder);
       setOrders([...orders, response.data]);
       setNewOrder({
         id_user: "",
@@ -57,6 +57,11 @@ const OrderPage = () => {
         status: "",
         nama_penerima: "",
         id_kurir: "",
+        no_hp_penerima: "",
+        jenis_paket: "",
+        keterangan: "",
+        nama_pengirim: "",
+        no_hp_pengirim: "",
       });
       setError(null);
     } catch (err) {
@@ -81,7 +86,7 @@ const OrderPage = () => {
   // Save edited order
   const saveOrder = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.17:8000/api/pemesanans/${editingOrder.id_pemesanan}`, newOrder);
+      const response = await axios.put(`http://192.168.1.14:8001/api/pemesanan/${editingOrder.id_pemesanan}`, newOrder);
       setOrders(orders.map((order) => (order.id_pemesanan === editingOrder.id_pemesanan ? response.data : order)));
       setEditingOrder(null);
       setNewOrder({
@@ -92,6 +97,11 @@ const OrderPage = () => {
         status: "",
         nama_penerima: "",
         id_kurir: "",
+        no_hp_penerima: "",
+        jenis_paket: "",
+        keterangan: "",
+        nama_pengirim: "",
+        no_hp_pengirim: "",
       });
       setError(null);
     } catch (err) {
@@ -102,7 +112,7 @@ const OrderPage = () => {
   // Delete order
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.17:8000/api/pemesanans/${id}`);
+      await axios.delete(`http://192.168.1.14:8001/api/pemesanan/${id}`);
       setOrders(orders.filter((order) => order.id_pemesanan !== id));
       setError(null);
     } catch (err) {
@@ -121,6 +131,11 @@ const OrderPage = () => {
       status: "",
       nama_penerima: "",
       id_kurir: "",
+      no_hp_penerima: "",
+      jenis_paket: "",
+      keterangan: "",
+      nama_pengirim: "",
+      no_hp_pengirim: "",
     });
   };
 
@@ -174,6 +189,46 @@ const OrderPage = () => {
               name="id_kurir"
               placeholder="Courier ID"
               value={newOrder.id_kurir}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="no_hp_penerima"
+              placeholder="Recipient Phone Number"
+              value={newOrder.no_hp_penerima}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="jenis_paket"
+              placeholder="Package Type"
+              value={newOrder.jenis_paket}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="keterangan"
+              placeholder="Description"
+              value={newOrder.keterangan}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="nama_pengirim"
+              placeholder="Sender Name"
+              value={newOrder.nama_pengirim}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="no_hp_pengirim"
+              placeholder="Sender Phone Number"
+              value={newOrder.no_hp_pengirim}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />

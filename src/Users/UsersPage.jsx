@@ -11,6 +11,7 @@ const UsersPage = () => {
     email: "",
     username: "",
     role: "",
+    password: "",
   });
   const [editingUser, setEditingUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,10 +21,11 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/users");
+      const response = await axios.get("http://localhost:3000/users");
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
+      console.error("Failed to fetch users:", err);
       setError("Failed to fetch users");
       setLoading(false);
     }
@@ -46,7 +48,7 @@ const UsersPage = () => {
   // Add new user
   const addUser = async () => {
     try {
-      const response = await axios.post("http://192.168.1.17:8000/api/users", newUser);
+      const response = await axios.post("http://localhost:3000/user", newUser);
       setUsers([...users, response.data]);
       setNewUser({
         nama: "",
@@ -55,9 +57,11 @@ const UsersPage = () => {
         email: "",
         username: "",
         role: "",
+        password: "",
       });
       setError(null);
     } catch (err) {
+      console.error("Failed to add user:", err); // Log the error
       setError("Failed to add user");
     }
   };
@@ -72,13 +76,14 @@ const UsersPage = () => {
       email: user.email,
       username: user.username,
       role: user.role,
+      password: "",
     });
   };
 
   // Save edited user
   const saveUser = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.17:8000/api/users/${editingUser.id_user}`, newUser);
+      const response = await axios.put(`http://localhost:3000/user/${editingUser.id_user}`, newUser);
       setUsers(users.map((user) => (user.id_user === editingUser.id_user ? response.data : user)));
       setEditingUser(null);
       setNewUser({
@@ -88,6 +93,7 @@ const UsersPage = () => {
         email: "",
         username: "",
         role: "",
+        password: "",
       });
       setError(null);
     } catch (err) {
@@ -98,7 +104,7 @@ const UsersPage = () => {
   // Delete user
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.17:8000/api/users/${id}`);
+      await axios.delete(`http://localhost:3000/user/${id}`);
       setUsers(users.filter((user) => user.id_user !== id));
       setError(null);
     } catch (err) {
@@ -116,6 +122,7 @@ const UsersPage = () => {
       email: "",
       username: "",
       role: "",
+      password: "",
     });
   };
 
@@ -165,6 +172,14 @@ const UsersPage = () => {
               <option value="kurir">Kurir</option>
               <option value="admin">Admin</option>
             </select>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={newUser.password}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <div className="mt-4 flex space-x-2">
             <button onClick={editingUser ? saveUser : addUser} className={`px-4 py-2 rounded flex items-center ${editingUser ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"} text-white transition-colors`}>

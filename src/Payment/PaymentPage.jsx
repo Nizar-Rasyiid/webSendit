@@ -19,7 +19,7 @@ const PaymentPage = () => {
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/payments");
+      const response = await axios.get("http://192.168.1.14:8000/api/payments");
       setPayments(response.data);
       setLoading(false);
     } catch (err) {
@@ -30,7 +30,7 @@ const PaymentPage = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/users");
+      const response = await axios.get("http://192.168.1.14:8000/api/users");
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
@@ -60,7 +60,7 @@ const PaymentPage = () => {
   // Add new payment
   const addPayment = async () => {
     try {
-      const response = await axios.post("http://192.168.1.17:8000/api/payments", newPayment);
+      const response = await axios.post("http://192.168.1.14:8000/api/payments", newPayment);
       setPayments([...payments, response.data]);
       setNewPayment({
         metode_pembayaran: "",
@@ -88,7 +88,7 @@ const PaymentPage = () => {
   // Save edited payment
   const savePayment = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.17:8000/api/payments/${editingPayment.id_payment}`, newPayment);
+      const response = await axios.put(`http://192.168.1.14:8000/api/payments/${editingPayment.id_payment}`, newPayment);
       setPayments(payments.map((payment) => (payment.id_payment === editingPayment.id_payment ? response.data : payment)));
       setEditingPayment(null);
       setNewPayment({
@@ -106,7 +106,7 @@ const PaymentPage = () => {
   // Delete payment
   const deletePayment = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.17:8000/api/payments/${id}`);
+      await axios.delete(`http://192.168.1.14:8000/api/payments/${id}`);
       setPayments(payments.filter((payment) => payment.id_payment !== id));
       setError(null);
     } catch (err) {
