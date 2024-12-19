@@ -9,9 +9,14 @@ const OrderPage = () => {
     jarak: "",
     lokasi_jemput: "",
     lokasi_tujuan: "",
-    status: "",
+    status: "On Progress", // Default status
     nama_penerima: "",
     id_kurir: "",
+    no_hp_penerima: "", // Field baru
+    jenis_paket: "", // Field baru
+    keterangan: "", // Field baru
+    nama_pengirim: "", // Field baru
+    no_hp_pengirim: "", // Field baru
   });
   const [editingOrder, setEditingOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +26,7 @@ const OrderPage = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.17:8000/api/pemesanans");
+      const response = await axios.get("http://192.168.1.5:8000/api/pemesanan");
       setOrders(response.data);
       setLoading(false);
     } catch (err) {
@@ -47,16 +52,21 @@ const OrderPage = () => {
   // Add new order
   const addOrder = async () => {
     try {
-      const response = await axios.post("http://192.168.1.17:8000/api/pemesanans", newOrder);
+      const response = await axios.post("http://192.168.1.5:8000/api/pemesanan", newOrder);
       setOrders([...orders, response.data]);
       setNewOrder({
         id_user: "",
         jarak: "",
         lokasi_jemput: "",
         lokasi_tujuan: "",
-        status: "",
+        status: "On Progress", // Default status
         nama_penerima: "",
         id_kurir: "",
+        no_hp_penerima: "",
+        jenis_paket: "",
+        keterangan: "",
+        nama_pengirim: "",
+        no_hp_pengirim: "",
       });
       setError(null);
     } catch (err) {
@@ -75,13 +85,18 @@ const OrderPage = () => {
       status: order.status,
       nama_penerima: order.nama_penerima,
       id_kurir: order.id_kurir.toString(),
+      no_hp_penerima: order.no_hp_penerima, // Field baru
+      jenis_paket: order.jenis_paket, // Field baru
+      keterangan: order.keterangan, // Field baru
+      nama_pengirim: order.nama_pengirim, // Field baru
+      no_hp_pengirim: order.no_hp_pengirim, // Field baru
     });
   };
 
   // Save edited order
   const saveOrder = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.17:8000/api/pemesanans/${editingOrder.id_pemesanan}`, newOrder);
+      const response = await axios.put(`http://192.168.1.5:8000/api/pemesanan/${editingOrder.id_pemesanan}`, newOrder);
       setOrders(orders.map((order) => (order.id_pemesanan === editingOrder.id_pemesanan ? response.data : order)));
       setEditingOrder(null);
       setNewOrder({
@@ -89,9 +104,14 @@ const OrderPage = () => {
         jarak: "",
         lokasi_jemput: "",
         lokasi_tujuan: "",
-        status: "",
+        status: "On Progress", // Default status
         nama_penerima: "",
         id_kurir: "",
+        no_hp_penerima: "",
+        jenis_paket: "",
+        keterangan: "",
+        nama_pengirim: "",
+        no_hp_pengirim: "",
       });
       setError(null);
     } catch (err) {
@@ -102,11 +122,12 @@ const OrderPage = () => {
   // Delete order
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.17:8000/api/pemesanans/${id}`);
+      await axios.delete(`http://192.168.1.5:8000/api/pemesanan/${id}`);
       setOrders(orders.filter((order) => order.id_pemesanan !== id));
       setError(null);
     } catch (err) {
       setError("Failed to delete order");
+      console.log("Editing Order ID:", editingOrder.id_pemesanan); 
     }
   };
 
@@ -118,9 +139,14 @@ const OrderPage = () => {
       jarak: "",
       lokasi_jemput: "",
       lokasi_tujuan: "",
-      status: "",
+      status: "On Progress", // Default status
       nama_penerima: "",
       id_kurir: "",
+      no_hp_penerima: "",
+      jenis_paket: "",
+      keterangan: "",
+      nama_pengirim: "",
+      no_hp_pengirim: "",
     });
   };
 
@@ -142,7 +168,7 @@ const OrderPage = () => {
         {/* Order Input Form */}
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <input type="text" name="id_user" placeholder="User ID" value={newOrder.id_user} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="text" name="id_user" placeholder="User  ID" value={newOrder.id_user} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <input type="number" name="jarak" placeholder="Distance" value={newOrder.jarak} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <input
               type="text"
@@ -177,6 +203,45 @@ const OrderPage = () => {
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <input
+              type="text"
+              name="no_hp_penerima"
+              placeholder="Recipient Phone Number"
+              value={newOrder.no_hp_penerima}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="jenis_paket"
+              placeholder="Package Type"
+              value={newOrder.jenis_paket}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <textarea
+              name="keterangan"
+              placeholder="Description"
+              value={newOrder.keterangan}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="nama_pengirim"
+              placeholder="Sender Name"
+              value={newOrder.nama_pengirim}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              name="no_hp_pengirim"
+              placeholder="Sender Phone Number"
+              value={newOrder.no_hp_pengirim}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <div className="mt-4 flex space-x-2">
             <button onClick={editingOrder ? saveOrder : addOrder} className={`px-4 py-2 rounded flex items-center ${editingOrder ? "bg-green-500 hover:bg-green-600" : "bg-blue-500 hover:bg-blue-600"} text-white transition-colors`}>
@@ -206,26 +271,31 @@ const OrderPage = () => {
           <table className="w-full">
             <thead className="bg-gray-100 border-b">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User  ID</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distance</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pickup Location</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination Location</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recipient Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Courier ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recipient Phone</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Package Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sender Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sender Phone</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-4 text-gray-500">
+                  <td colSpan="13" className="text-center py-4 text-gray-500">
                     Loading orders...
                   </td>
                 </tr>
               ) : orders.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-4 text-gray-500">
+                  <td colSpan="13" className="text-center py-4 text-gray-500">
                     No orders found
                   </td>
                 </tr>
@@ -239,6 +309,11 @@ const OrderPage = () => {
                     <td className="px-6 py-4 whitespace-nowrap">{order.status}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{order.nama_penerima}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{order.id_kurir}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{order.no_hp_penerima}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{order.jenis_paket}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{order.keterangan}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{order.nama_pengirim}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{order.no_hp_pengirim}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <button onClick={() => editOrder(order)} className="text-yellow-500 hover:text-yellow-600 mr-3" title="Edit">
                         <PencilIcon className="h-5 w-5" />
