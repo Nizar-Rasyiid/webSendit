@@ -14,7 +14,7 @@ const AdminDashboard = () => {
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.5:8000/api/payments");
+      const response = await axios.get("http://127.0.0.1:8000/api/payments");
       // Assuming `response.data` is an array of payments
       const processedData = response.data.map((payment) => ({
         name: payment.month, // Adjust based on your API response

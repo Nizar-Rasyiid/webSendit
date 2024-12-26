@@ -101,7 +101,7 @@ const Register = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.1.5:8000/api/register', formData);
+            const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
             setSuccess('Registration successful! Please login.');
             // Clear form after successful registration
             setFormData({

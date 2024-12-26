@@ -20,7 +20,7 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.5:8000/api/users");
+      const response = await axios.get("http://127.0.0.1:8000/api/users");
       setUsers(response.data);
       setLoading(false);
     } catch (err) {
@@ -46,7 +46,7 @@ const UsersPage = () => {
   // Add new user
   const addUser = async () => {
     try {
-      const response = await axios.post("http://192.168.1.5:8000/api/users", newUser);
+      const response = await axios.post("http://127.0.0.1:8000/api/users", newUser);
       setUsers([...users, response.data]);
       setNewUser({
         nama: "",
@@ -78,7 +78,7 @@ const UsersPage = () => {
   // Save edited user
   const saveUser = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.5:8000/api/users/${editingUser.id_user}`, newUser);
+      const response = await axios.put(`http://127.0.0.1:8000/api/users/${editingUser.id_user}`, newUser);
       setUsers(users.map((user) => (user.id_user === editingUser.id_user ? response.data : user)));
       setEditingUser(null);
       setNewUser({
@@ -98,7 +98,7 @@ const UsersPage = () => {
   // Delete user
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.5:8000/api/users/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/api/users/${id}`);
       setUsers(users.filter((user) => user.id_user !== id));
       setError(null);
     } catch (err) {
