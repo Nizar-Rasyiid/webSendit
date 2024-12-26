@@ -23,9 +23,11 @@ const App = () => {
 
   return (
     <Router>
-      <Route path="/check-resi" element={<CheckResiPage />} />
-      <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
-      <Route path="/register" element={<Register />} />
+      <Routes>
+        <Route path="/check-resi" element={<CheckResiPage />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
       <div className="bg-gray-100 min-h-screen">
         {isAuthenticated && <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} handleLogout={handleLogout} />}
 

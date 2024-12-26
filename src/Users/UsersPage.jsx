@@ -83,7 +83,7 @@ const UsersPage = () => {
   // Save edited user
   const saveUser = async () => {
     try {
-      const response = await axios.put(`http://localhost:3000/user/${editingUser.id_user}`, newUser);
+      const response = await axios.put(`http://localhost:3000/users/${editingUser.id_user}`, newUser);
       setUsers(users.map((user) => (user.id_user === editingUser.id_user ? response.data : user)));
       setEditingUser(null);
       setNewUser({
@@ -97,6 +97,7 @@ const UsersPage = () => {
       });
       setError(null);
     } catch (err) {
+      console.error("Failed to update user:", err); // Log the error
       setError("Failed to update user");
     }
   };
