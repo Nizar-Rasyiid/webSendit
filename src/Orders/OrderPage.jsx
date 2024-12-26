@@ -26,7 +26,7 @@ const OrderPage = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.5:8000/api/pemesanan");
+      const response = await axios.get("http://127.0.0.1:8000/api/pemesanan");
       setOrders(response.data);
       setLoading(false);
     } catch (err) {
@@ -52,7 +52,7 @@ const OrderPage = () => {
   // Add new order
   const addOrder = async () => {
     try {
-      const response = await axios.post("http://192.168.1.5:8000/api/pemesanan", newOrder);
+      const response = await axios.post("http://127.0.0.1:8000/api/pemesanan", newOrder);
       setOrders([...orders, response.data]);
       setNewOrder({
         id_user: "",
@@ -96,7 +96,7 @@ const OrderPage = () => {
   // Save edited order
   const saveOrder = async () => {
     try {
-      const response = await axios.put(`http://192.168.1.5:8000/api/pemesanan/${editingOrder.id_pemesanan}`, newOrder);
+      const response = await axios.put(`http://127.0.0.1:8000/api/pemesanan/${editingOrder.id_pemesanan}`, newOrder);
       setOrders(orders.map((order) => (order.id_pemesanan === editingOrder.id_pemesanan ? response.data : order)));
       setEditingOrder(null);
       setNewOrder({
@@ -122,7 +122,7 @@ const OrderPage = () => {
   // Delete order
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`http://192.168.1.5:8000/api/pemesanan/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/api/pemesanan/${id}`);
       setOrders(orders.filter((order) => order.id_pemesanan !== id));
       setError(null);
     } catch (err) {
