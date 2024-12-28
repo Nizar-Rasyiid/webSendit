@@ -162,7 +162,6 @@ const PaymentPage = () => {
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <input type="number" name="harga" placeholder="Price" value={newPayment.harga} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <input
               type="number"
               name="id_pemesanan"
@@ -202,21 +201,20 @@ const PaymentPage = () => {
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama User</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                  <td colSpan="4" className="text-center py-4 text-gray-500">
                     Loading payments...
                   </td>
                 </tr>
               ) : payments.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                  <td colSpan="4" className="text-center py-4 text-gray-500">
                     No payments found
                   </td>
                 </tr>
@@ -225,9 +223,8 @@ const PaymentPage = () => {
                   <tr key={payment.id_payment} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">{payment.metode_pembayaran}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{users.find((user) => user.id_user === payment.id_user)?.nama}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{payment.harga}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{payment.id_pemesanan}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                    <td className="px-6 py-4 whitespace-nowrap text-center">{payment.id_pemesanan}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-center">
                       <button onClick={() => editPayment(payment)} className="text-yellow-500 hover:text-yellow-600 mr-3" title="Edit">
                         <PencilIcon className="h-5 w-5" />
                       </button>

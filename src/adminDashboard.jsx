@@ -15,7 +15,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/pemesanan");
+      const response = await axios.get("http://127.0.0.1:8000/api/pemesanan");
       const totalOrders = response.data.length;
       setTotalOrders(response.data.length);
       setLoading(false);
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       setLoading(true);
       const response = await axios.get("http://localhost:3000/users");
       setUsers(response.data);
-      const totalUsersCount = response.data.filter((user) => user.role === "pemesan").length;
+      const totalUsersCount = response.data.length;
       setTotalUsers(totalUsersCount);
       setLoading(false);
     } catch (err) {
@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://192.168.1.14:8001/api/payments");
+      const response = await axios.get("http://127.0.0.1:8000/api/payments");
       const processedData = response.data.map((payment) => ({
         name: payment.month,
         sales: payment.sales,
@@ -99,10 +99,10 @@ const AdminDashboard = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard icon={Users} title="Total  Users" value={totalUsers} trend="+5%" color="blue" />
+        <StatCard icon={Users} title="Total Users" value={totalUsers} trend="+5%" color="blue" />
         <StatCard icon={ShoppingCart} title="Total Orders" value={totalOrders} trend="+8.2%" color="purple" />
         <StatCard icon={DollarSign} title="Total Revenue" value={formatCurrency(totalRevenue)} trend="+15.3%" color="green" />
-        <StatCard icon={Activity} title="Active Users" value="789" trend="+4.7%" color="orange" />
+        <StatCard icon={Activity} title="Active Users" value="3" trend="+50%" color="orange" />
       </div>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2">
