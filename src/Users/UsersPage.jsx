@@ -105,7 +105,7 @@ const UsersPage = () => {
   // Delete user
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/user/${id}`);
+      await axios.delete(`http://localhost:3000/users/${id}`);
       setUsers(users.filter((user) => user.id_user !== id));
       setError(null);
     } catch (err) {
@@ -210,6 +210,7 @@ const UsersPage = () => {
           <table className="w-full">
             <thead className="bg-gray-100 border-b">
               <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID USER</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
@@ -234,6 +235,7 @@ const UsersPage = () => {
               ) : (
                 users.map((user) => (
                   <tr key={user.id_user} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">{user.id_user}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.nama}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.alamat}</td>

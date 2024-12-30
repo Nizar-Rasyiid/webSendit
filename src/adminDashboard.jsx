@@ -16,11 +16,33 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const response = await axios.get("http://localhost:3000/pemesanan");
-      const totalOrders = response.data.length;
+      // const totalOrders = response.data.length;
+      const revenue = response.data.reduce((acc, order) => acc + order.total_harga, 0);
+
       setTotalOrders(response.data.length);
       setLoading(false);
+      setTotalRevenue(revenue);
     } catch (err) {
       setError("Failed to fetch orders");
+      setLoading(false);
+    }
+  };
+  const fetchPayments = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://127.0.0.1:8000/api/payments");
+      const processedData = response.data.map((payment) => ({
+        name: payment.month,
+        sales: payment.sales,
+      }));
+      setData(processedData);
+
+      const total = response.data.reduce((acc, payment) => acc + payment.harga, 0);
+      setTotalRevenue(total);
+
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch payments");
       setLoading(false);
     }
   };
@@ -34,26 +56,6 @@ const AdminDashboard = () => {
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch users");
-      setLoading(false);
-    }
-  };
-
-  const fetchPayments = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get("http://192.168.1.14:8001/api/payments");
-      const processedData = response.data.map((payment) => ({
-        name: payment.month,
-        sales: payment.sales,
-      }));
-      setData(processedData);
-
-      const total = response.data.reduce((acc, payment) => acc + payment.harga, 0);
-      setTotalRevenue(total);
-
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to fetch payments");
       setLoading(false);
     }
   };

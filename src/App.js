@@ -10,6 +10,8 @@ import Login from "./auth/login";
 import Register from "./auth/register";
 import PaymentPage from "./Payment/PaymentPage";
 import CheckResiPage from "./Resi/CheckResiPage";
+import ForgotPassword from "./auth/forgotPassword";
+import ResetPassword from "./auth/resetPassword";
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
@@ -25,6 +27,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/check-resi" element={<CheckResiPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/register" element={<Register />} />
       </Routes>

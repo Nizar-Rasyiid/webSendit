@@ -124,6 +124,7 @@ const CheckResiPage = () => {
                 <InfoRow icon={<User className="w-6 h-6 text-purple-400" />} title="Pengirim" value={getSenderName(result.id_user)} />
                 <InfoRow icon={<Truck className="w-6 h-6 text-pink-400" />} title="Penerima" value={result.nama_penerima} />
                 <InfoRow icon={<MapPin className="w-6 h-6 text-blue-400" />} title="Alamat Pengiriman" value={result.lokasi_tujuan} />
+                <InfoRow icon={<MapPin className="w-6 h-6 text-blue-400" />} title="Up to Date Alamat" value={result.updated_lokasi} />
               </div>
             </div>
           )}
