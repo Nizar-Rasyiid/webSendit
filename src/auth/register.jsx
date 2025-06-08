@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import API_CONFIG from "../config";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nama: "",
     alamat: "",
@@ -101,8 +104,11 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", formData);
-      setSuccess("Registration successful! Please login.");
+      console.log("Sending registration data:", formData); // Debug log
+      const response = await axios.post(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.REGISTER}`, formData);
+      console.log("Registration response:", response.data); // Debug log
+      
+      setSuccess("Registration successful! Redirecting to login...");
       // Clear form after successful registration
       setFormData({
         nama: "",
@@ -112,9 +118,19 @@ const Register = () => {
         username: "",
         password: "",
         password_confirmation: "",
-        role: "admin",
+        role: "pemesan",
       });
+      // Redirect to login page after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err) {
+      console.error("Registration error details:", {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message
+      });
+      
       if (err.response?.status === 422) {
         // Validation errors from server
         const serverErrors = err.response.data;
@@ -130,8 +146,12 @@ const Register = () => {
           }
         });
         setErrors(newErrors);
+      } else if (err.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else if (!err.response) {
+        setError("Network error. Please check your internet connection.");
       } else {
-        setError("An error occurred. Please try again.");
+        setError(err.response?.data?.message || "An error occurred during registration. Please try again.");
       }
     } finally {
       setIsLoading(false);

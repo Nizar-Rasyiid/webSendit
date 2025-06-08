@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { UserIcon, PencilIcon, TrashIcon, PlusIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import API_CONFIG from "../config";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -21,12 +22,13 @@ const UsersPage = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/users");
+      const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}`);
       setUsers(response.data);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       console.error("Failed to fetch users:", err);
       setError("Failed to fetch users");
+    } finally {
       setLoading(false);
     }
   };
@@ -48,7 +50,7 @@ const UsersPage = () => {
   // Add new user
   const addUser = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/user", newUser);
+      const response = await axios.post(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}`, newUser);
       setUsers([...users, response.data]);
       setNewUser({
         nama: "",
@@ -61,8 +63,8 @@ const UsersPage = () => {
       });
       setError(null);
     } catch (err) {
-      console.error("Failed to add user:", err); // Log the error
-      setError("Failed to add user");
+      console.error("Failed to add user:", err);
+      setError(err.response?.data?.message || "Failed to add user");
     }
   };
 
@@ -83,8 +85,15 @@ const UsersPage = () => {
   // Save edited user
   const saveUser = async () => {
     try {
-      const response = await axios.put(`http://localhost:3000/users/${editingUser.id_user}`, newUser);
-      setUsers(users.map((user) => (user.id_user === editingUser.id_user ? response.data : user)));
+      const response = await axios.put(
+        `${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}/${editingUser.id_user}`,
+        newUser
+      );
+      setUsers(
+        users.map((user) =>
+          user.id_user === editingUser.id_user ? response.data : user
+        )
+      );
       setEditingUser(null);
       setNewUser({
         nama: "",
@@ -97,19 +106,20 @@ const UsersPage = () => {
       });
       setError(null);
     } catch (err) {
-      console.error("Failed to update user:", err); // Log the error
-      setError("Failed to update user");
+      console.error("Failed to update user:", err);
+      setError(err.response?.data?.message || "Failed to update user");
     }
   };
 
   // Delete user
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
+      await axios.delete(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}/${id}`);
       setUsers(users.filter((user) => user.id_user !== id));
       setError(null);
     } catch (err) {
-      setError("Failed to delete user");
+      console.error("Failed to delete user:", err);
+      setError(err.response?.data?.message || "Failed to delete user");
     }
   };
 

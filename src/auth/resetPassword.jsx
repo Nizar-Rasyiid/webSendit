@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Lock, ArrowLeft, Eye, EyeOff, CheckCircle, Loader2 } from "lucide-react";
+import API_CONFIG from "../config";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const ResetPassword = () => {
     setIsLoading(true);
 
     try {
-      await axios.post("http://127.0.0.1:8000/api/password-reset", {
+      await axios.post(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.RESET_PASSWORD}`, {
         token: formData.token,
         email: formData.email,
         password: formData.password,
@@ -61,8 +62,8 @@ const ResetPassword = () => {
         navigate("/login");
       }, 3000);
     } catch (err) {
-      if (err.response?.status === 422) {
-        setError(err.response.data.message || "Invalid or expired reset token. Please request a new password reset.");
+      if (err.response?.status === 400) {
+        setError("Invalid or expired reset token. Please request a new password reset link.");
       } else {
         setError(err.response?.data?.error || "Something went wrong. Please try again.");
       }

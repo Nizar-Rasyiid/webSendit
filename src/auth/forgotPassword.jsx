@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Mail, ArrowLeft, MailCheck, Loader2 } from "lucide-react";
+import API_CONFIG from "../config";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/forgot-password", {
+      const response = await axios.post(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.FORGOT_PASSWORD}`, {
         email: email,
       });
       setSuccess("Reset link has been sent to your email address. Please check your inbox!");

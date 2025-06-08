@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Package } from "lucide-react";
+import API_CONFIG from "../config";
 
 const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Login = ({ setIsAuthenticated }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+      const response = await axios.post(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.LOGIN}`, {
         email: formData.email,
         password: formData.password,
       });

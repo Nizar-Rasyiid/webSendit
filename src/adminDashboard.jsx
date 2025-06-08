@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Users, ShoppingCart, DollarSign, Activity, TrendingUp, ChevronUp } from "lucide-react";
 import axios from "axios";
+import API_CONFIG from "./config";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
@@ -15,8 +16,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/pemesanan");
-      // const totalOrders = response.data.length;
+      const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.ORDERS}`);
       const revenue = response.data.reduce((acc, order) => acc + order.total_harga, 0);
 
       setTotalOrders(response.data.length);
@@ -27,10 +27,11 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+
   const fetchPayments = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://127.0.0.1:8000/api/payments");
+      const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.PAYMENTS}`);
       const processedData = response.data.map((payment) => ({
         name: payment.month,
         sales: payment.sales,
@@ -46,10 +47,11 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/users");
+      const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}`);
       setUsers(response.data);
       const totalUsersCount = response.data.filter((user) => user.role === "pemesan").length;
       setTotalUsers(totalUsersCount);

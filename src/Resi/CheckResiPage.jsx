@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Package, Search, Truck, MapPin, Calendar, User, CheckCircle } from "lucide-react";
 import axios from "axios";
+import API_CONFIG from "../config";
 
 const CheckResiPage = () => {
   const [resi, setResi] = useState("");
@@ -13,10 +14,11 @@ const CheckResiPage = () => {
     // Fetch users from API
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.USERS}`);
         setUsers(response.data);
       } catch (err) {
         console.error("Failed to fetch users:", err);
+        setError("Failed to fetch users data");
       }
     };
 
@@ -32,12 +34,12 @@ const CheckResiPage = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/pemesanan/${resi}`);
-      const data = await response.json();
-      setResult(data);
+      const response = await axios.get(`${API_CONFIG.BASE_URL}${API_CONFIG.API_ENDPOINTS.ORDERS}/${resi}`);
+      setResult(response.data);
       setError(null);
     } catch (err) {
       setError("Nomor resi tidak ditemukan. Silakan periksa kembali.");
+      setResult(null);
     } finally {
       setLoading(false);
     }
